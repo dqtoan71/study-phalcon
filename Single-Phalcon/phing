@@ -1,0 +1,9 @@
+#!/bin/bash
+
+file="phing.phar"
+
+if [ ! -f $file ]; then
+    wget -O $file http://www.phing.info/get/phing-latest.phar
+fi
+
+php phing.phar $@

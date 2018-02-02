@@ -1,0 +1,39 @@
+{
+    "require": {
+        "ext-xml":"*",
+        "ext-mbstring":"*",
+        "ext-gd":"*",
+        "phalcon/incubator": "^3.2",
+        "rooxim/phalcon-toml-ini":"dev-master",
+        "rooxim/phalcon-db-sqlsrv":"dev-master",
+        "pear/config_lite": "dev-master"
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "phpmd/phpmd": "^2.6",
+        "sebastian/phpcpd": "^3.0",
+        "phalcon/ide-stubs": "^3.2",
+        "phalcon/devtools": "dev-master",
+        "squizlabs/php_codesniffer": "*",
+        "phing/phing": "2.*"
+
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/rooxim/phalcon-toml-ini.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/rooxim/phalcon-db-sqlsrv.git"
+        },
+        {
+            "type": "pear",
+            "url": "http://pear.php.net/"
+        }
+    ],
+    "config":{
+        "secure-http" : false
+    }
+}

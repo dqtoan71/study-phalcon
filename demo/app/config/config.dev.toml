@@ -1,0 +1,3 @@
+[application]
+baseUri         = "/"
+staticBaseUri   = "http://localhost:8080/"

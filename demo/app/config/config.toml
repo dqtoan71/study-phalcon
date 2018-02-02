@@ -1,0 +1,71 @@
+#[database]
+#adapter = "Mysql"
+#host = localhost
+#username = root
+#password =
+#dbname = unicharm
+#charset = utf8
+
+#[database]
+#adapter = Sqlsrv
+#port = 1433
+#host = db.database.windows.net
+#instance = DB
+#username = admin@db.database.windows.net
+#password = PassW0rd!
+#db_name = DB
+
+#[database]
+#adapter = "Sqlsrv"
+#port = 1433
+#host = "192.168.0.104"
+#instance = ""
+#username = "sa"
+#password = "PassW0rd!"
+#db_name = "usami"
+
+[database]
+adapter = "Sqlsrv"
+port = 1433
+host = "127.0.0.1"
+instance = ""
+username = "root"
+password = ""
+db_name = "demoPhalcon_db"
+
+
+[application]
+appDir          = "/../app/"
+controllersDir  = "/../app/controllers/"
+modelsDir       = "/../app/models/"
+servicesDir     = "/../app/services/"
+migrationsDir   = "app/migrations/"
+viewsDir        = "/../app/views/"
+pluginsDir      = "/../app/plugins/"
+libraryDir      = "/../app/library/"
+repositoriesDir = "/../app/repositories/"
+cacheDir        = "/../cache/"
+phalconDir      = "/../Phalcon/"
+testsDir        = "/../tests/"
+validationDir   = "/../app/validation/"
+baseUri         = "/"
+staticBaseUri   = "http://localhost:8080/"
+routingConfDir  = "/config/routing.toml"
+
+title = "アプリ管理コンソール"
+
+
+[session]
+timeout = 604800
+
+[storage]
+connectionString = "DefaultEndpointsProtocol=https;AccountName=usamiappstgdiag110;AccountKey=wxiB5Uu117123Qc09jNQDB/Mb2hZx0AaclOqnsaVY1evQra2uMoZ35+O4+YbcdeTicS32ZtMi+u+tugdvumcHw=="
+container = "contents"
+cdnUrl = "https://usami-stg-cdn2.azureedge.net/"
+
+[cache]
+lifetime = 40000
+type = "redis"
+host = "usamiapp-stg.redis.cache.windows.net"
+port = 6379
+auth = "096fvZhm40oURtpQ3mSngJKnkNO312VXAxXMb620sok="

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Phalcon-Project" basedir="." default="help">
+    <property name="cacheDir" value="cache" />
+    <property name="reportsDir" value="reports"/>
+    <property name="testDir" value="tests"/>
+
+    <target name="help">
+    <echo>please use options
+
+     options:
+        server        : run debug server
+        init-bin      : download bin files
+        composer      : download composer.phar
+        install       : install require repositories
+        update        : update require repositories
+        clean         : clean cache
+        clean-reports : clean reports
+        clean-all     : clean reports,vendor,cache,composer.phar,composer.lock
+        reports       : output all reports
+        phpunit       : output phpunit reports
+        phpmd         : output phpmd reports
+        phpcpd        : putput phpcpd reports
+        gen_migrate   : phalcon generate migration
+        run_migrate   : phalcon run migration
+
+
+
+    </echo>
+    </target>
+
+    <target name="init_bin" depends="install">
+        <exec executable="php">
+            <arg line="-r" />
+            <arg value="copy('https://git.rooxim.net/rooxim-php/php-bin-tools/raw/master/phalcon', 'phalcon');chmod('phalcon',0744);" />
+        </exec>
+        <exec executable="php">
+            <arg line="-r" />
+            <arg value="copy('https://git.rooxim.net/rooxim-php/php-bin-tools/raw/master/phalcon.bat', 'phalcon.bat');" />
+        </exec>
+        <exec executable="php">
+            <arg line="-r" />
+            <arg value="copy('https://git.rooxim.net/rooxim-php/php-bin-tools/raw/master/composer', 'composer');chmod('composer',0744);" />
+        </exec>
+        <exec executable="php">
+            <arg line="-r" />
+            <arg value="copy('https://git.rooxim.net/rooxim-php/php-bin-tools/raw/master/composer.bat', 'composer.bat');" />
+        </exec>
+    </target>
+
+    <target name="server"  depends="install" >
+
+        <echo>start server: http://0.0.0.0:8082</echo>
+        <exec executable="php" passthru="true" escape="true">
+            <arg line="-S" />
+            <arg value="0.0.0.0:8082" />
+            <arg line="-t" />
+            <arg value="public" />
+            <arg value=".htrouter.php" />
+        </exec>
+    </target>
+
+    <target name="composer" depends="checkExt">
+        <if>
+            <not>
+                <available file='composer.phar' type='file' />
+            </not>
+            <then>
+                <echo>composer downloading now...</echo>
+                <exec executable="php">
+                    <arg line="-r" />
+                    <arg value="copy('https://getcomposer.org/installer', 'composer-setup.php');" />
+                </exec>
+                <exec command="php composer-setup.php" />
+                <delete file="composer-setup.php" />
+            </then>
+        </if>
+    </target>
+
+    <target name="checkExt">
+        <exec executable="php">
+            <arg line="-r"/>
+            <arg value="if(!extension_loaded('http')){echo '[http extension] is not installed your php';exit(1)}" />
+        </exec>
+    </target>
+
+    <target name="install" depends="composer">
+        <if>
+            <not>
+                <available file='vendor' type='dir' />
+            </not>
+            <then>
+                <composer command="install">
+                    <arg line="--ignore-platform-reqs"/>
+                </composer>
+            </then>
+        </if>
+    </target>
+
+    <target name="gen_migrate" depends="init_bin">
+        <exec passthru="true"
+              command="./phalcon migration generate --config app/config/config_tool.php --migrations app/migrations" />
+    </target>
+
+    <target name="run_migrate" depends="init_bin">
+        <exec passthru="true"
+              command="./phalcon migration run --config app/config/config_tool.php --migrations app/migrations" />
+    </target>
+
+
+    <target name="gen_models" depends="init_bin">
+        <exec passthru="true"
+              command="./phalcon all-models --config=app/config/config.php --force --output=app/models --namespace=models --get-set --abstract" />
+    </target>
+    <target name="update">
+        <composer command="update" >
+            <arg line="--ignore-platform-reqs"/>
+        </composer>
+    </target>
+
+    <target name="autoload">
+        <php expression="include('vendor/autoload.php');"/>
+    </target>
+
+    <target name="reportDir">
+        <mkdir dir="${reportsDir}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${cacheDir}/*.php" />
+    </target>
+
+    <target name="clean-reports">
+        <delete dir="${reportsDir}" includeemptydirs="true"  />
+    </target>
+
+    <target name="clean-all">
+        <delete dir="${cacheDir}/*.php" />
+        <delete dir="${reportsDir}" includeemptydirs="true"  />
+        <delete dir="vendor" includeemptydirs="true"  />
+        <delete dir="composer.phar" includeemptydirs="true"  />
+        <delete dir="composer.lock" includeemptydirs="true"  />
+    </target>
+
+    <target name="phpunit" depends="install,autoload,reportDir">
+        <exec passthru="true"
+              os="Darwin,Linux,CYGWIN_NT-5.1,FreeBSD,HP-UX,IRIX64,NetBSD,OpenBSD,SunOS,Unix"
+              command="vendor/bin/phpunit --log-junit ${reportsDir}/phpunit.xml --coverage-clover ${reportsDir}/clover.xml -c tests/phpunit.xml"
+        />
+        <exec passthru="true"
+              os="WIN32,WINNT,Windows"
+              command="vendor\bin\phpunit --log-junit ${reportsDir}/phpunit.xml --coverage-clover ${reportsDir}/clover.xml -c tests/phpunit.xml"
+        />
+        <!-- phpunit task is not support version 6.0 over in 2.16.0 -->
+
+        <!-- <phpunit configuration="tests/phpunit.xml">
+            <formatter type="clover" outfile="${reportsDir}/clover.xml" />
+            <formatter type="xml" outfile="${reportsDir}/phpunit.xml" />
+        </phpunit> -->
+
+    </target>
+
+    <target name="phpmd" depends="install,autoload,reportDir">
+        <phpmd>
+            <fileset dir="app" />
+            <formatter type="xml" outfile="${reportsDir}/pmd.xml"/>
+        </phpmd>
+    </target>
+
+    <target name="phpcpd" depends="install,autoload,reportDir">
+        <phpcpd minTokens="10">
+            <fileset dir="app" />
+            <fileset dir="public" />
+            <formatter type="pmd" outfile="${reportsDir}/cpd.xml"/>
+        </phpcpd>
+    </target>
+
+
+    <target name="phpcs" depends="composer">
+        <exec executable="vendor/bin/phpcs" passthru="true" escape="true">
+            <arg line="--standard=Zend" />
+            <arg line="--report-file=reports/phpcs.xml"/>
+            <arg line="--report=checkstyle"/>
+            <arg line="app/"/>
+        </exec>
+    </target>
+
+    <target name="phpcs_comitter" depends="composer">
+        <exec executable="vendor/bin/phpcs" passthru="true" escape="true">
+            <arg line="--standard=Zend" />
+            <arg line="--report=gitblame "/>
+            <arg line="app/"/>
+        </exec>
+    </target>
+
+
+    <target name="phpcbf" depends="composer">
+        <exec executable="vendor/bin/phpcbf" passthru="true" escape="true">
+            <arg line="--standard=Zend" />
+            <arg line="app/"/>
+        </exec>
+    </target>
+
+    <target name="reports" depends="phpunit,phpcpd,phpmd" />
+</project>

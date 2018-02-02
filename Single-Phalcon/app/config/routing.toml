@@ -1,0 +1,29 @@
+[router]
+
+[router."/call"]
+method = ["GET"]
+namespace = 'controllers'
+controller = "index"
+action = "call"
+
+
+[router."/error"]
+method = ["GET"]
+namespace = 'controllers'
+controller = "login"
+action = "logout"
+
+[router.404]
+namespace = "controllers"
+controller = 'error'
+action = "notfound"
+
+
+[acl]
+[acl.Guest]
+[acl.Guest.allow]
+index=["index","call"]
+error = ["error","notfound",'errorException']
+[acl.User]
+extends = "Guest"
+[acl.User.allow]

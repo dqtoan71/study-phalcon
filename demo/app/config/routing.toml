@@ -1,0 +1,18 @@
+[router]
+
+[router."/call"]
+method = ["POST"]
+namespace = 'controllers\api'
+controller = "index"
+action = "call"
+
+
+[acl]
+[acl.Guest]
+[acl.Guest.allow]
+
+index = ["index","call"]
+
+[acl.User]
+extends = "Guest"
+[acl.User.allow]

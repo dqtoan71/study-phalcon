@@ -1,0 +1,86 @@
+#[database]
+#adapter = "Mysql"
+#host = localhost
+#username = root
+#password =
+#dbname = unicharm
+#charset = utf8
+
+#[database]
+#adapter = Sqlsrv
+#port = 1433
+#host = db.database.windows.net
+#instance = DB
+#username = admin@db.database.windows.net
+#password = PassW0rd!
+#db_name = DB
+
+#[database]
+#adapter = "Sqlsrv"
+#port = 1433
+#host = "192.168.0.104"
+#instance = ""
+#username = "sa"
+#password = "PassW0rd!"
+#db_name = "usami"
+
+[database]
+adapter = "Sqlsrv"
+port = 1433
+host = "usamiapp-stg-sql01.database.windows.net"
+instance = ""
+username = "pscadmin"
+password = "p$c_U$@M!20!Z"
+db_name = "usamiapp-stg-sql01"
+
+
+[application]
+appDir          = "/../app/"
+controllersDir  = "/../app/controllers/"
+modelsDir       = "/../app/models/"
+servicesDir     = "/../app/services/"
+migrationsDir   = "app/migrations/"
+viewsDir        = "/../app/views/"
+pluginsDir      = "/../app/plugins/"
+libraryDir      = "/../app/library/"
+repositoriesDir = "/../app/repositories/"
+cacheDir        = "/../cache/"
+phalconDir      = "/../Phalcon/"
+testsDir        = "/../tests/"
+validationDir   = "/../app/validation/"
+baseUri         = "/"
+staticBaseUri   = "ttp://localhost:8080/"
+routingConfDir  = "/config/routing.toml"
+
+title = "アプリ管理コンソール"
+
+
+[crypt]
+key = "%@d#2$a%p?/2k/$A4Vc"
+
+
+[session]
+timeout = 604800
+
+[usappy]
+baseUrl = "http://ec.a-it.jp/api/us/"
+secret = "ussec"
+
+[car]
+baseUrl = "http://ec.a-it.jp/api/ukc_part/car_search/"
+AuthToken = "3tMcHyZtmkDizDpGsan7s6hn"
+
+[storage]
+connectionString = "DefaultEndpointsProtocol=https;AccountName=usamiappstgdiag110;AccountKey=wxiB5Uu117123Qc09jNQDB/Mb2hZx0AaclOqnsaVY1evQra2uMoZ35+O4+YbcdeTicS32ZtMi+u+tugdvumcHw=="
+container = "contents"
+cdnUrl = "https://usami-stg-cdn2.azureedge.net/"
+
+[news]
+url = "http://usami-net.com/usami_info.xml"
+
+[cache]
+lifetime = 40000
+type = "redis"
+host = "usamiapp-stg.redis.cache.windows.net"
+port = 6379
+auth = "096fvZhm40oURtpQ3mSngJKnkNO312VXAxXMb620sok="

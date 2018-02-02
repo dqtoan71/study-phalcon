@@ -1,0 +1,12 @@
+[application]
+baseUri         = "/"
+staticBaseUri   = "http://localhost:8080/"
+
+#[database]
+#adapter = "Sqlsrv"
+#port = 1433
+#host = "35.198.213.79"
+#instance = ""
+#username = "sa"
+#password = "PassW0rd!"
+#db_name = "usami"
